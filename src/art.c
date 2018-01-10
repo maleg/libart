@@ -20,6 +20,8 @@
 #define SET_LEAF(x) ((void*)((uintptr_t)x | 1))
 #define LEAF_RAW(x) ((art_leaf*)((void*)((uintptr_t)x & ~1)))
 
+int art_best_depth = 0;
+
 /**
  * Allocates a node of the given type,
  * initializes to zero and sets the type.
@@ -238,6 +240,37 @@ static int check_prefix(const art_node *n, const unsigned char *key, int key_len
     return idx;
 }
 
+static inline int memcmppos(const void* inl, const void* inr, int len){
+	//printf("memcmppos inl=%.40s , inr=%.40s ", (char*)inl, (char*)inr);
+	int rem = len;
+	while(rem>=8){
+		if ( *(uint64_t*)inl != *(uint64_t*)inr ){
+			break;
+		}
+		inl = (uint64_t*)inl +1;
+		inr = (uint64_t*)inr +1;
+		rem -= 8;
+	}
+	while(rem>=4){
+		if ( *(uint32_t*)inl != *(uint32_t*)inr ){
+			break;
+		}
+		inl = (uint32_t*)inl +1;
+		inr = (uint32_t*)inr +1;
+		rem -= 4;
+	}
+	while(rem>=1){
+		if ( *(uint8_t*)inl != *(uint8_t*)inr ){
+			break;
+		}
+		inl = (uint8_t*)inl +1;
+		inr = (uint8_t*)inr +1;
+		rem --;
+	}
+	//printf("rem=%d len=%d\n",rem, len);
+	return (rem) ? len-rem : 0;
+}
+
 /**
  * Checks if a leaf matches
  * @return 0 on success.
@@ -245,10 +278,12 @@ static int check_prefix(const art_node *n, const unsigned char *key, int key_len
 static int leaf_matches(const art_leaf *n, const unsigned char *key, int key_len, int depth) {
     (void)depth;
     // Fail if the key lengths are different
-    if (n->key_len != (uint32_t)key_len) return 1;
-
+    if (n->key_len != (uint32_t)key_len){
+		printf("leaf_matches Key_len mismatch: n->key_len=%d , key_len=%d ... returning 1\n", n->key_len, key_len);
+		return 1;
+	}
     // Compare the keys starting at the depth
-    return memcmp(n->key, key, key_len);
+    return memcmppos(n->key, key, key_len);
 }
 
 /**
@@ -262,30 +297,38 @@ static int leaf_matches(const art_leaf *n, const unsigned char *key, int key_len
 void* art_search(const art_tree *t, const unsigned char *key, int key_len) {
     art_node **child;
     art_node *n = t->root;
-    int prefix_len, depth = 0;
+    int prefix_len, ret;
+	art_best_depth = 0;
     while (n) {
         // Might be a leaf
         if (IS_LEAF(n)) {
             n = (art_node*)LEAF_RAW(n);
             // Check if the expanded path matches
-            if (!leaf_matches((art_leaf*)n, key, key_len, depth)) {
+			ret = leaf_matches((art_leaf*)n, key, key_len, art_best_depth);
+            if (!ret) {
+				art_best_depth = key_len;
+				//printf("1\n");
                 return ((art_leaf*)n)->value;
             }
-            return NULL;
+			//printf("2: %d, %d\n", art_best_depth, ret);
+			art_best_depth = ret+1;
+			return NULL;
         }
 
         // Bail if the prefix does not match
         if (n->partial_len) {
-            prefix_len = check_prefix(n, key, key_len, depth);
-            if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
+            prefix_len = check_prefix(n, key, key_len, art_best_depth);
+            if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len)){
+				//printf("3\n");
                 return NULL;
-            depth = depth + n->partial_len;
+			}
+            art_best_depth = art_best_depth + n->partial_len;
         }
 
         // Recursively search
-        child = find_child(n, key[depth]);
+        child = find_child(n, key[art_best_depth]);
         n = (child) ? *child : NULL;
-        depth++;
+        art_best_depth++;
     }
     return NULL;
 }
