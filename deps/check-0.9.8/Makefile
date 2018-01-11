@@ -91,13 +91,13 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run aclocal-1.10
-AMTAR = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run tar
+ACLOCAL = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run autoconf
-AUTOHEADER = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run autoheader
-AUTOMAKE = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run automake-1.10
-AWK = mawk
+AUTOCONF = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run automake-1.10
+AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -Wall -ansi -pedantic -Wextra -Wstrict-prototypes -Wmissing-prototypes -Wwrite-strings -Wno-variadic-macros
@@ -116,7 +116,7 @@ ECHO_C =
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
-ENABLE_SUBUNIT = 0
+ENABLE_SUBUNIT = 1
 EXEEXT = 
 FGREP = /bin/grep -F
 GCOV = gcov
@@ -133,12 +133,12 @@ LCOV = false
 LD = /usr/bin/ld -m elf_x86_64
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -lsubunit 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /vagrant/deps/check-0.9.8/build-aux/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
 NMEDIT = 
@@ -163,10 +163,10 @@ SHELL = /bin/bash
 STRIP = strip
 TEX = false
 VERSION = 0.9.8
-abs_builddir = /vagrant/deps/check-0.9.8
-abs_srcdir = /vagrant/deps/check-0.9.8
-abs_top_builddir = /vagrant/deps/check-0.9.8
-abs_top_srcdir = /vagrant/deps/check-0.9.8
+abs_builddir = /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8
+abs_srcdir = /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8
+abs_top_builddir = /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8
+abs_top_srcdir = /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
 acx_pthread_config = 
@@ -195,7 +195,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /vagrant/deps/check-0.9.8/build-aux/install-sh
+install_sh = $(SHELL) /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -746,7 +746,7 @@ uninstall-am: uninstall-docDATA uninstall-m4dataDATA \
 
 SVNChangeLog:
 	if [ -e .svn ] ; then \
-	svn log -v /vagrant/deps/check-0.9.8 > $@ ;\
+	svn log -v /home/malego/Projects/Bitcoin/lib/libart/deps/check-0.9.8 > $@ ;\
 	else \
 	echo "SVN Changelog not available" > $@ ;\
 	fi

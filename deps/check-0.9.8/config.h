@@ -2,7 +2,7 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Subunit protocol result output */
-#define ENABLE_SUBUNIT 0
+#define ENABLE_SUBUNIT 1
 
 /* Define to 1 if you have the declaration of `fileno', and to 0 if you don't.
    */
@@ -53,7 +53,7 @@
 #define HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `subunit' library (-lsubunit). */
-/* #undef HAVE_LIBSUBUNIT */
+#define HAVE_LIBSUBUNIT 1
 
 /* Define to 1 if you have the `localtime_r' function. */
 #define HAVE_LOCALTIME_R 1
@@ -144,6 +144,9 @@
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "check"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "0.9.8"

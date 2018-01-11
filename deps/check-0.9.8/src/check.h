@@ -280,7 +280,7 @@ enum print_output {
   CK_NORMAL, /* All failed tests */
   CK_VERBOSE, /* All tests */
   CK_ENV, /* Look at environment var */
-#if 0
+#if 1
   CK_SUBUNIT, /* Run as a subunit child process */
 #endif
   CK_LAST

@@ -1,4 +1,4 @@
 # defined to 1 if subunit is enabled
-export ENABLE_SUBUNIT=0
+export ENABLE_SUBUNIT=1
 # defined to 1 if subunit is enabled
-export ENABLE_SUBUNIT=0
+export ENABLE_SUBUNIT=1

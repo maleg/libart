@@ -311,7 +311,7 @@ void* art_search(const art_tree *t, const unsigned char *key, int key_len) {
                 return ((art_leaf*)n)->value;
             }
 			//printf("2: %d, %d\n", art_best_depth, ret);
-			art_best_depth = ret+1;
+			art_best_depth = ret;
 			return NULL;
         }
 
